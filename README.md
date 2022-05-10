@@ -2,9 +2,8 @@
 
 ## How to run
 
-1. You need to download the dataset and drag the "Positive" and "Negative" folder into the "testdata" folder. 
-2. You need to have all dependencies installed
-3. You can run main and the program will by default take 100 positives and 100 negatives to test.   
+1. You need to have all dependencies installed
+2. You can run main and the program will by default take 100 positives and 100 negatives to test.   
 
 To change the test data go into /v1/functions.py/ and change the result function to your specific folder name. 
 
