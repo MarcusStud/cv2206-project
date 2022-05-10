@@ -8,8 +8,21 @@ from scipy.stats import stats
 from PIL import Image
 from PIL import ImageFilter
 import random
+import os
+import platform
 
 def getIm(typ, amount, arr):
+    if(platform.system() == "Windows"):
+      Negative = os.path.abspath("testdata")
+      Positive = os.path.abspath("testdata")
+      Negative = Negative.replace("\src\dist\main", "", 1)
+      Positive = Positive.replace("\src\dist\main", "", 1)
+      Negative = Negative + "\\Negative\\"
+      Positive = Positive + "\\Positive\\"
+      
+    else:
+      Positive = "cv2206-project/testdata/Positive/"
+      Negative = "cv2206-project/testdata/Negative/"
     dupes = []
     for _ in range (amount):
         getint, dupes = getUniqueRand(dupes)
@@ -21,9 +34,9 @@ def getIm(typ, amount, arr):
             get = "0" + get
             digits = len(get)
         if typ:
-            get = "cv2206-project/testdata/Positive/" + get + ".jpg"
+            get = Positive + get + ".jpg"
         else:
-            get = "cv2206-project/testdata/Negative/" + get + ".jpg"
+            get = Negative + get + ".jpg"
         im = cv2.imread(get)
         arr.append(im)
 
@@ -40,8 +53,8 @@ def getUniqueRand(dupes):
 def getRandomImages(amount, Pos, Neg):
     getIm(True, amount, Pos)
     getIm(False, amount, Neg)
-    #convert grayscale here
     return Pos, Neg
+
 def contours(img):
     imgray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     _, thresh = cv2.threshold(imgray, 127, 255, 0)
@@ -75,3 +88,10 @@ def results(images, sampleType):
     txt4 = ("Accuracy:" , (negative/len(images))*100,)
     list = [txt1,txt2,txt3,txt4]
     return list
+
+def checkCrackSelectedImage(img):
+  cont = contours(img)
+  if cont > 50:
+   return True
+  else:
+   return False
